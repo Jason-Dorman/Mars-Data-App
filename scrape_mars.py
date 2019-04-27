@@ -1,6 +1,5 @@
 import pandas as pd
 from splinter import Browser
-from splinter.exceptions import ElementDoesNotExist
 from bs4 import BeautifulSoup
 
 def init_browser():
@@ -63,7 +62,7 @@ def scrape_info():
 
     # convert table into html
     mars_html_table = mars_df.to_html()
-    mars_html_table.replace('\n', '')
+    mars_html_table = mars_html_table.replace('\n', '')
 
     # visit USGS site for mars info
     hem_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
@@ -78,3 +77,70 @@ def scrape_info():
 
     for hem_title in hem_title_result:
         title = hem_title.find('h3').text
+
+    # get images
+    hem_image1 = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced'
+    browser.visit(hem_image1)
+    hem1 = browser.html
+    hem1_soup = BeautifulSoup(hem1, 'html.parser')
+
+    img_results_1 = hem1_soup.find_all('img', class_="wide-image")
+
+    for img_url_1 in img_results_1:
+        img1 = img_url_1['src']
+    img1 = "https://astrogeology.usgs.gov" + img1
+
+    hem_image2 = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/schiaparelli_enhanced'
+    browser.visit(hem_image2)
+    hem2 = browser.html
+    hem2_soup = BeautifulSoup(hem2, 'html.parser')
+
+    img_results_2 = hem2_soup.find_all('img', class_="wide-image")
+
+    for img_url_2 in img_results_2:
+        img2 = img_url_2['src']
+    img2 = "https://astrogeology.usgs.gov" + img2
+
+    hem_image3 = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/syrtis_major_enhanced'
+    browser.visit(hem_image3)
+    hem3 = browser.html
+    hem3_soup = BeautifulSoup(hem3, 'html.parser')
+
+    img_results_3 = hem3_soup.find_all('img', class_="wide-image")
+
+    for img_url_3 in img_results_3:
+        img3 = img_url_3['src']
+    img3 = "https://astrogeology.usgs.gov" + img3
+
+    hem_image4 = 'https://astrogeology.usgs.gov/search/map/Mars/Viking/valles_marineris_enhanced'
+    browser.visit(hem_image4)
+    hem4 = browser.html
+    hem4_soup = BeautifulSoup(hem4, 'html.parser')
+
+    img_results_4 = hem4_soup.find_all('img', class_="wide-image")
+
+    for img_url_4 in img_results_4:
+        img4 = img_url_4['src']
+    img4 = "https://astrogeology.usgs.gov" + img4
+
+    mars_data = {
+        "news_title": news_title,
+        "news_p": news_p,
+        "featured_image_url": featured_image_url,
+        "mars_weather": mars_weather,
+        "mars_html_table": mars_html_table,
+        "title": title,
+        "title": title,
+        "title": title,
+        "title": title,
+        "img1": img1,
+        "img2": img2,
+        "img3": img3,
+        "img4": img4
+    }
+
+    # Close the browser after scraping
+    browser.quit()
+
+    # Return results
+    return mars_data
