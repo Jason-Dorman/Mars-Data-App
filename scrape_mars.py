@@ -144,3 +144,4 @@ def scrape_info():
 
     # Return results
     return mars_data
+scrape_info()
