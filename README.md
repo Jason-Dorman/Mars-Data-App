@@ -1,2 +1,2 @@
 # Mars-Data-App
-Python webscraping to dosplay data about the big red planet on a website.
+Python webscraping to display data about the big red planet on a website.
